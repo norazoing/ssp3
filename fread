@@ -1,0 +1,31 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main( int argc, char *argv[])
+{
+
+    //printf("hello c\n");
+    
+    FILE *fp_in;
+    char buf_in[255];
+
+    fp_in = fopen("LOGFILE_A.TXT", "r");
+
+    if ( fp_in == NULL )
+    {
+        perror("file open error 1 :");
+        exit(0);
+    }        
+
+    while ( fgets( buf_in, 255, fp_in) != NULL)
+    {
+        printf("[%d]%s", (int)strlen(buf_in), buf_in);        
+    }
+
+    fclose(fp_in);
+    
+    
+    return 0;
+    
+}
