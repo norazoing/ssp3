@@ -1,0 +1,71 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <pthread.h>
+
+int thread_count = 0;
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
+void increase_thread_count(void)
+{
+    pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+    pthread_mutex_lock(&mutex);
+    thread_count++;
+    pthread_mutex_unlock(&mutex);
+}
+
+
+void decrease_thread_count(void)
+{
+    pthread_mutex_lock(&mutex);
+    thread_count--;
+    pthread_mutex_unlock(&mutex);
+}
+
+int get_thread_count(void)
+{
+    int result;
+    pthread_mutex_lock(&mutex);
+    result = thread_count;
+    pthread_mutex_unlock(&mutex);
+    return result;
+}
+
+unsigned int seed;
+
+void *thread_function(void *args)
+{
+    pthread_detach(pthread_self());
+
+    int sleep = ( rand_r(&seed) % 10 +1 ) * 100;
+    usleep( sleep *1000);
+    printf("[%d] thread %lu, %d ms sleep\n", *(int *)args, (unsigned long)pthread_self(), sleep);
+    free((int *)args);
+
+    decrease_thread_count();
+    return NULL;
+}
+
+int main( int argc, char *argv[])
+{
+    pthread_t thread;
+    int i = 0;
+    int *pi;
+    seed = time(NULL);
+
+    for ( i = 0 ; i <10 ; i++ )
+    {
+        increase_thread_count();
+        pi = malloc(sizeof(int));
+        *pi = i;
+        pthread_create(&thread, NULL, &thread_function, pi);
+    }
+
+    while ( get_thread_count() > 0)
+    {
+        usleep(10);
+    }
+
+    return 0;
+}
