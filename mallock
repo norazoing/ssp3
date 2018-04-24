@@ -1,0 +1,102 @@
+#include<stdio.h>
+
+	int main()
+	{
+		int *ptr_one;
+
+		ptr_one = (int *)malloc(sizeof(int));
+
+		if (ptr_one == 0)
+		{
+			printf("ERROR: Out of memory\n");
+			return 1;
+		}
+
+		*ptr_one = 25;
+		printf("%d\n", *ptr_one);
+
+		free(ptr_one);
+
+		return 0;
+	}
+  
+  /*
+  #include <stdio.h>
+#include <stdlib.h>
+
+int main () {
+   char *str;
+
+   /* Initial memory allocation */
+   str = (char *) malloc(15);
+   strcpy(str, "tutorialspoint");
+   printf("String = %s,  Address = %u\n", str, str);
+
+   /* Reallocating memory */
+   str = (char *) realloc(str, 25);
+   strcat(str, ".com");
+   printf("String = %s,  Address = %u\n", str, str);
+
+   free(str);
+   
+   return(0);
+}
+  
+  
+  */
+  
+  /*
+  int main()
+{
+    int num, i, *ptr, sum = 0;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &num);
+
+    ptr = (int*) malloc(num * sizeof(int));  //memory allocated using malloc
+    if(ptr == NULL)                     
+    {
+        printf("Error! memory not allocated.");
+        exit(0);
+    }
+
+    printf("Enter elements of array: ");
+    for(i = 0; i < num; ++i)
+    {
+        scanf("%d", ptr + i);
+        sum += *(ptr + i);
+    }
+
+    printf("Sum = %d", sum);
+    free(ptr);
+    return 0;
+}
+  */
+  /*#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int num, i, *ptr, sum = 0;
+    printf("Enter number of elements: ");
+    scanf("%d", &num);
+
+    ptr = (int*) calloc(num, sizeof(int));
+    if(ptr == NULL)
+    {
+        printf("Error! memory not allocated.");
+        exit(0);
+    }
+
+    printf("Enter elements of array: ");
+    for(i = 0; i < num; ++i)
+    {
+        scanf("%d", ptr + i);
+        sum += *(ptr + i);
+    }
+
+    printf("Sum = %d", sum);
+    free(ptr);
+    return 0;
+}
+*/
